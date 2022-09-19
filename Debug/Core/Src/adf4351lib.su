@@ -1,0 +1,4 @@
+../Core/Src/adf4351lib.c:3:18:adf435x_init	48	static
+../Core/Src/adf4351lib.c:59:18:prepare_registers	16	static
+../Core/Src/adf4351lib.c:101:18:send_register	24	static
+../Core/Src/adf4351lib.c:125:18:update_all_register	24	static
