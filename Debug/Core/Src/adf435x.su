@@ -1,0 +1,8 @@
+adf435x.c:9:9:adf435x_init	40	static
+adf435x.c:93:9:prepare_registers	16	static
+adf435x.c:162:6:sendRegisterToAdf	24	static
+adf435x.c:183:6:updateAllRegisters	24	static
+adf435x.c:191:9:disable_out	16	static
+adf435x.c:203:9:enable_out	16	static
+adf435x.c:215:6:set_power_out	16	static
+adf435x.c:225:9:set_clock	24	static
