@@ -42,7 +42,7 @@ uint8_t adf435x_init(adf435xSettings *obj, TypeIcTypeDef type,
 	obj->rdiv2 = 1;
 	obj->r_counter = 10;
 	obj->dbl_buf = 0;
-	obj->charge_pump_current = 0b111;
+	obj->charge_pump_current = 0b1111;
 	obj->ldf = 1;
 	obj->ldp = 0;
 	obj->pd_polarity = 1;
@@ -109,8 +109,7 @@ uint8_t prepare_registers(adf435xSettings *obj, uint32_t freq)
 	}
 
 	obj->INT = (freq * (1 << obj->rf_div_sel)) / obj->pfd_freq;
-	obj->FRAC = (((freq * (1 << obj->rf_div_sel)) % obj->pfd_freq) * 4095)
-			/ obj->pfd_freq;
+	obj->FRAC = (((freq * (1 << obj->rf_div_sel)) % obj->pfd_freq) * 4095) / obj->pfd_freq;
 
 	obj->reg[0] = SHL(obj->INT, 15) | SHL(obj->FRAC, 3);
 	obj->reg[1] = SHL(obj->phase_adj, 28) | SHL(obj->prescaler, 27)
@@ -210,3 +209,27 @@ uint8_t set_clock(adf435xSettings *obj, uint32_t freq)
 	}
 	return status;
 }
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+void adf_init(adfTypeDef* obj)
+{
+	obj->reg.reg0.CONTROL_BITS = 0;
+	obj->reg.reg0.FRAC = 0;
+	obj->reg.reg0.INT = 0;
+
+	obj->reg.reg1.CONTROL_BITS = 1;
+	obj->reg.reg1.PHASE = 1;
+	obj->reg.reg1.MOD = 4095;
+
+
+
+
+}
+
+
+
+
+
+
+

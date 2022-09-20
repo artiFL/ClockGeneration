@@ -163,10 +163,10 @@ int main(void)
 		if (status == 0)
 			print("adf4350 set clock - %d \r\n", 170000000);
 		else
-			print("adf4351 Errorcode %d \r\n", status);
+			print("adf4350 Errorcode %d \r\n", status);
 	}
 	else
-		print("adf4351 Errorcode %d \r\n", status);
+		print("adf4350 Errorcode %d \r\n", status);
 //****************************************************************************
 
 

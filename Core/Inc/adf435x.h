@@ -97,4 +97,112 @@ uint8_t enable_out(adf435xSettings *obj);
 void set_power_out(adf435xSettings *obj, uint8_t pwr);
 uint8_t set_clock(adf435xSettings *obj, uint32_t freq);
 
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+typedef struct
+{
+	uint32_t CONTROL_BITS				:3;
+	uint32_t FRAC						:12;	//0 - 4095
+	uint32_t INT						:16;	//0 - 65535
+	uint32_t RESERVED					:1;
+}Register0;
+
+typedef struct
+{
+	uint32_t CONTROL_BITS				:3;
+	uint32_t MOD						:12;	//0 - 4095
+	uint32_t PHASE						:12;	//0 - 4095
+	uint32_t PRESCALLER					:1;		//0 - 1 (4/5, 8/9)
+	uint32_t PHASE_ADJUST				:1;		//0 - 1 (OFF - ON)
+	uint32_t RESERVED					:3;
+}Register1;
+
+typedef struct
+{
+	uint32_t CONTROL_BITS				:3;
+	uint32_t COUNTER_RESET				:1;		//0- DISABLED 1- ENABLED
+	uint32_t CP_THREE_STATE				:1;		//0- DISABLED 1- ENABLED
+	uint32_t POWER_DOWN					:1;		//0- DISABLED 1- ENABLED
+	uint32_t PD_POLARITY				:1;		//0- NEGATIVE 1- POSITIVE
+	uint32_t LDP						:1;		//0- 10ns 1- 6ns
+	uint32_t LDF						:1;		//0- FRAC-N 1- INT-N
+	uint32_t CHARGE_PUMP_CURRENT		:4;		//0 - 0.31mA 15 - 5mA
+	uint32_t DOUBLE_BUFFER				:1;		//0- DISABLED 1- ENABLED
+	uint32_t R_COUNTER					:10;	//0-1023
+	uint32_t REFERENCE_DIVIDE			:1;		//0- DISABLED 1- ENABLED
+	uint32_t REFERENCE_DOUBLER			:1;		//0- DISABLED 1- ENABLED
+	uint32_t MUXOUT						:3;		//
+	uint32_t LOW_NOISE					:2;		//0 - LOW NOISE MODE 1- LOW SPUR MODE
+	uint32_t RESERVED					:1;
+}Register2;
+
+typedef struct
+{
+	uint32_t CONTROL_BITS				:3;
+	uint32_t CLOCK_DIVIDER				:12;	//0-4095
+	uint32_t CLOCK_DIV_MODE				:2;		//0- Clock divider off
+												//1- fast lock enable
+												//2- resync enable
+												//3- reserved
+	uint32_t RESERVED					:1;
+	uint32_t CSR						:1;		//0- DISABLED 1- ENABLED
+	uint32_t RESERVED2					:2;
+	uint32_t CHARGE_CANCELATION			:1;		//0- DISABLED 1- ENABLED
+	uint32_t ABP						:1;		//0- 6ns 1- 3ns
+	uint32_t BAND_SELECT_CLOCK			:1;		//0- LOW 1- HIGH
+	uint32_t RESERVED3					:8;
+}Register3;
+
+
+typedef struct
+{
+	uint32_t CONTROL_BITS				:3;
+	uint32_t OUTPUT_POWER				:2;		//{-4, -1, +2, +5}dBm
+	uint32_t RF_OUTPUT_DIS				:1;		//0- DISABLED 1- ENABLED
+
+	uint32_t AUX_OUTPUT_POWER			:2;		//{-4, -1, +2, +5}dBm
+	uint32_t AUX_OUTPUT_DIS				:1;		//0- DISABLED 1- ENABLED
+	uint32_t AUX_OUTPUT_SELECT			:1;		//0- DIVIDED OUTPUT 1- FUNDAMENTAL
+
+	uint32_t MUTE_TILL_LOCK_DETECT		:1;		///0- MUTE DISABLED 1- MUTE ENABLED
+	uint32_t VCO_POWER_DOWN				:1;		///0- VCO POWER UP 1- VCO POWER DOWN
+	uint32_t CLOCK_DEVIDER				:8;		///0-255
+	uint32_t RF_DIVIDER					:3;		///{1, 2, 4, 8, 16, 32, 64}
+	uint32_t FEEDBACK_SECELT			:3;		///0- DIVIDED 1- FUNDAMENTAL
+	uint32_t RESERVED					:8;		//
+}Register4;
+
+typedef struct
+{
+	uint32_t CONTROL_BITS				:3;
+	uint32_t RESERVED					:19;	//
+	uint32_t LOCK_DETECT_PIN			:2;		//{LOW, DIGITAL LOCK DETECT, LOW, HIGH}
+	uint32_t RESERVED2					:8;		//
+}Register5;
+
+
+typedef struct
+{
+	Register0 reg0;
+	Register1 reg1;
+	Register2 reg2;
+	Register3 reg3;
+	Register4 reg4;
+	Register5 reg5;
+}InternalRegister;
+
+typedef struct
+{
+	InternalRegister reg;
+
+	uint32_t frequence;
+
+	void (*low_CS)(void);
+	void (*high_CS)(void);
+	void (*send_message)(uint8_t *buff, uint8_t size);
+	void (*delay)(uint32_t value);
+
+}adfTypeDef;
+
 #endif /* INC_ADF435X_H_ */
