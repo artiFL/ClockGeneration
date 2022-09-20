@@ -11,20 +11,13 @@ uint8_t adf435x_init(adf435xSettings *obj, TypeIcTypeDef type,
 		void (*cs_high_t)(void), void (*SPI_send)(uint8_t*, uint8_t),
 		void (*delay_t)(uint32_t))
 {
-	if (obj == NULL)
-		return 1;
-	if (reference_clock > 50000000)
-		return 2;
-	if (reference_clock < 10000000)
-		return 2;
-	if (cs_low_t == NULL)
-		return 3;
-	if (cs_high_t == NULL)
-		return 4;
-	if (SPI_send == NULL)
-		return 5;
-	if (delay_t == NULL)
-		return 6;
+	if (obj == NULL) 				return 1;
+	if (reference_clock > 50000000) return 2;
+	if (reference_clock < 10000000) return 2;
+	if (cs_low_t == NULL) 			return 3;
+	if (cs_high_t == NULL) 			return 4;
+	if (SPI_send == NULL) 			return 5;
+	if (delay_t == NULL) 			return 6;
 
 	obj->Type_ic = type;
 
@@ -94,41 +87,25 @@ uint8_t prepare_registers(adf435xSettings *obj, uint32_t freq)
 {
 	if(obj->Type_ic == ADF4351_TYPE)
 	{
-		if (freq >= 4400000000)
-			return 1;
-		if (freq >= 2200000000)
-			obj->rf_div_sel = 0;
-		if (freq < 2200000000)
-			obj->rf_div_sel = 1;
-		if (freq < 1100000000)
-			obj->rf_div_sel = 2;
-		if (freq < 550000000)
-			obj->rf_div_sel = 3;
-		if (freq < 275000000)
-			obj->rf_div_sel = 4;
-		if (freq < 137500000)
-			obj->rf_div_sel = 5;
-		if (freq < 68750000)
-			obj->rf_div_sel = 6;
-		if (freq <= 35000000)
-			return 2;
+		if (freq >= 4400000000) return 1;
+		if (freq >= 2200000000) obj->rf_div_sel = 0;
+		if (freq < 2200000000) 	obj->rf_div_sel = 1;
+		if (freq < 1100000000) 	obj->rf_div_sel = 2;
+		if (freq < 550000000) 	obj->rf_div_sel = 3;
+		if (freq < 275000000) 	obj->rf_div_sel = 4;
+		if (freq < 137500000) 	obj->rf_div_sel = 5;
+		if (freq < 68750000) 	obj->rf_div_sel = 6;
+		if (freq <= 35000000) 	return 2;
 	}
 	else
 	{
-		if (freq >= 4400000000)
-			return 1;
-		if (freq >= 2200000000)
-			obj->rf_div_sel = 0;
-		if (freq < 2200000000)
-			obj->rf_div_sel = 1;
-		if (freq < 1100000000)
-			obj->rf_div_sel = 2;
-		if (freq < 550000000)
-			obj->rf_div_sel = 3;
-		if (freq < 275000000)
-			obj->rf_div_sel = 4;
-		if (freq <= 137500000)
-			return 2;
+		if (freq >= 4400000000) return 1;
+		if (freq >= 2200000000)	obj->rf_div_sel = 0;
+		if (freq < 2200000000)	obj->rf_div_sel = 1;
+		if (freq < 1100000000)	obj->rf_div_sel = 2;
+		if (freq < 550000000)	obj->rf_div_sel = 3;
+		if (freq < 275000000)	obj->rf_div_sel = 4;
+		if (freq <= 137500000)	return 2;
 	}
 
 	obj->INT = (freq * (1 << obj->rf_div_sel)) / obj->pfd_freq;
